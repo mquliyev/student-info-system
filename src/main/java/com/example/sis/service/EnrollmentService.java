@@ -18,6 +18,12 @@ public class EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
+    public List<Enrollment> getAllEnrollments() {
+        return enrollmentRepository.findAll();
+    }
+    public void deleteEnrollment(Long id) {
+        enrollmentRepository.deleteById(id);
+    }
 
     public Enrollment enrollStudentToCourse(Long studentId, Long courseId) {
         Student student = studentRepository.findById(studentId)

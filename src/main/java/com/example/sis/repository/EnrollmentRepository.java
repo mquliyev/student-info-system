@@ -8,4 +8,5 @@ import java.util.List;
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     int countByCourseId(Long courseId);
     List<Enrollment> findByStudentId(Long studentId);
+    List<Enrollment> findByCourseId(Long courseId);
 }

@@ -3,7 +3,10 @@ package com.example.sis.controller;
 import com.example.sis.entity.Enrollment;
 import com.example.sis.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/enrollments")
@@ -12,13 +15,24 @@ public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
 
+    @GetMapping
+    public ResponseEntity<List<Enrollment>> getAllEnrollments() {
+        return ResponseEntity.ok(enrollmentService.getAllEnrollments());
+    }
+
     @PostMapping("/{studentId}/{courseId}")
-    public Enrollment enroll(@PathVariable Long studentId, @PathVariable Long courseId) {
-        return enrollmentService.enrollStudentToCourse(studentId, courseId);
+    public ResponseEntity<Enrollment> enroll(@PathVariable Long studentId, @PathVariable Long courseId) {
+        return ResponseEntity.ok(enrollmentService.enrollStudentToCourse(studentId, courseId));
     }
 
     @PutMapping("/{enrollmentId}/grade")
-    public Enrollment assignGrade(@PathVariable Long enrollmentId, @RequestParam Double score) {
-        return enrollmentService.assignGrade(enrollmentId, score);
+    public ResponseEntity<Enrollment> assignGrade(@PathVariable Long enrollmentId, @RequestParam Double score) {
+        return ResponseEntity.ok(enrollmentService.assignGrade(enrollmentId, score));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEnrollment(@PathVariable Long id) {
+        enrollmentService.deleteEnrollment(id);
+        return ResponseEntity.noContent().build();
     }
 }

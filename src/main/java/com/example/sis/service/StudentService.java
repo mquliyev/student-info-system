@@ -1,6 +1,8 @@
 package com.example.sis.service;
 
+import com.example.sis.entity.Enrollment;
 import com.example.sis.entity.Student;
+import com.example.sis.repository.EnrollmentRepository;
 import com.example.sis.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import java.util.List;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
     public Student addStudent(Student student) {
         return studentRepository.save(student);
@@ -38,6 +41,8 @@ public class StudentService {
     }
 
     public void deleteStudent(Long id) {
+        List<Enrollment> enrollments = enrollmentRepository.findByStudentId(id);
+        enrollmentRepository.deleteAll(enrollments);
         studentRepository.deleteById(id);
     }
 }
